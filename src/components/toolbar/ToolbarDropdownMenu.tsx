@@ -1,11 +1,11 @@
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
-import { ChevronDownIcon } from "lucide-react";
-import React from "react";
+} from '@radix-ui/react-dropdown-menu';
+import { ChevronDownIcon } from 'lucide-react';
+import React from 'react';
 
 type MenuItem<T> = {
   label: string;
@@ -30,7 +30,7 @@ export default function ToolbarDropDownMenu<T extends number | string>({
           aria-label="Heading level"
           title="Heading level"
           className={cn(
-            "h-7 min-w-7 shrink-0 flex items-center justify-between rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm"
+            ' bg-red-400 h-7 min-w-7 shrink-0 flex items-center justify-between rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm'
           )}
         >
           <span className="truncate">{getMeunName()}</span>
@@ -42,11 +42,11 @@ export default function ToolbarDropDownMenu<T extends number | string>({
           <button
             key={value}
             className={cn(
-              "flex items-center gap-x-2 px-2 py-1 rounded-sm hover:bg-neutral-200/80",
-              (value === 0 && getMeunName() === "Normal text") ||
+              'flex items-center gap-x-2 px-2 py-1 rounded-sm hover:bg-neutral-200/80',
+              (value === 0 && getMeunName() === 'Normal text') ||
                 getMeunName() === label
-                ? "bg-neutral-200/80"
-                : "bg-white"
+                ? 'bg-neutral-200/80'
+                : 'bg-white'
             )}
             onClick={() => onSelect(value)}
           >
