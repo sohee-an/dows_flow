@@ -23,7 +23,6 @@ import LinkButton from '@/components/toolbar/LinkButton';
 import ImageButton from '@/components/toolbar/ImageButton';
 import AlignButton from '@/components/toolbar/AlignButton';
 import ListButton from '@/components/toolbar/ListButton';
-import { FontSizeExtension } from '@/extensions/font-size';
 import FontSizeButton from '@/components/toolbar/FontSizeButton';
 import LineHeightButton from '@/components/toolbar/LineHeightButton';
 
@@ -158,7 +157,7 @@ export default function Toolbar() {
       {/* 코멘트쪽  */}
       <Separator orientation="vertical" className="h-6" />
       {sections[2].map((item) => {
-        return <ToolbarButton key={item.label} {...item} />;
+        return <ToolbarButton key={item.label} {...item}></ToolbarButton>;
       })}
     </div>
   );

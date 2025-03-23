@@ -20,8 +20,9 @@ import Highlight from '@tiptap/extension-highlight';
 import { Color } from '@tiptap/extension-color';
 import Link from '@tiptap/extension-link';
 import TextAlign from '@tiptap/extension-text-align';
-import { FontSizeExtension } from '../../../extensions/font-size';
-import { LineHeightExtension } from '../../../extensions/line-height';
+import { FontSizeExtension } from '@/extensions/font-size';
+import { LineHeightExtension } from '@/extensions/line-height';
+
 type EditorProps = {};
 
 const Editer = forwardRef<Editor, EditorProps>(({}, ref) => {
@@ -93,22 +94,22 @@ const Editer = forwardRef<Editor, EditorProps>(({}, ref) => {
         defaultLineHeight: 'normal',
       }),
     ],
-    content: `
-        <table>
-          <tbody>
-            <tr>
-              <th>Name</th>
-              <th colspan="3">Description</th>
-            </tr>
-            <tr>
-              <td>Cyndi Lauper</td>
-              <td>Singer</td>
-              <td>Songwriter</td>
-              <td>Actress</td>
-            </tr>
-          </tbody>
-        </table>
-      `,
+    // content: `
+    //     <table>
+    //       <tbody>
+    //         <tr>
+    //           <th>Name</th>
+    //           <th colspan="3">Description</th>
+    //         </tr>
+    //         <tr>
+    //           <td>Cyndi Lauper</td>
+    //           <td>Singer</td>
+    //           <td>Songwriter</td>
+    //           <td>Actress</td>
+    //         </tr>
+    //       </tbody>
+    //     </table>
+    //   `,
   });
 
   useImperativeHandle(ref, () => {

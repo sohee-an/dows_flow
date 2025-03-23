@@ -12,7 +12,6 @@ import { Button } from '../ui/button';
 type ToolbarButtonProps = {
   onClick?: () => void;
   isActive?: boolean;
-  children: React.ReactNode;
   icon: LucideIcon;
   ariaLabel?: string;
   title?: string;
@@ -21,8 +20,6 @@ type ToolbarButtonProps = {
 function ToolbarButton({
   onClick,
   isActive,
-
-  children,
   icon: Icon,
   ariaLabel,
   title,
@@ -40,7 +37,6 @@ function ToolbarButton({
               isActive && 'bg-neutral-200/80'
             )}
           >
-            {/* {children} */}
             <Icon></Icon>
           </Button>
         </TooltipTrigger>
