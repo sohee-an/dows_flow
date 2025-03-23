@@ -29,7 +29,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="p-2 header">Docs Flow</div>
+        {/* <div className="p-2 header">Docs Flow</div> */}
         {children}
       </body>
     </html>
