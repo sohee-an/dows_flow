@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
-import { FaCaretDown } from "react-icons/fa";
+import React, { useRef, useState } from 'react';
+import { FaCaretDown } from 'react-icons/fa';
 
 const markers = Array.from({ length: 83 }, (_, i) => i);
 
@@ -18,11 +18,11 @@ const Marker = ({
   onDoubleClick,
   onMouseDown,
 }: MarkerProps) => {
-  console.log("isDragging", isDragging);
+  console.log('isDragging', isDragging);
   return (
     <div
       className="absolute top-0 w-4 h-full cursor-ew-resize z-[5] group -ml-2"
-      style={{ [isLeft ? "left" : "right"]: `${position}px` }}
+      style={{ [isLeft ? 'left' : 'right']: `${position}px` }}
       onMouseDown={onMouseDown}
       onDoubleClick={onDoubleClick}
     >
@@ -30,11 +30,11 @@ const Marker = ({
       <div
         className="absolute left-1/2 top-4 transform -translate-x-1/2"
         style={{
-          height: "100vh",
-          width: "1px",
-          transform: "scaleX(0.5)",
-          backgroundColor: "#3b72f6",
-          display: isDragging ? "block" : "none",
+          height: '100vh',
+          width: '1px',
+          transform: 'scaleX(0.5)',
+          backgroundColor: '#3b72f6',
+          display: isDragging ? 'block' : 'none',
         }}
       />
     </div>
@@ -66,7 +66,7 @@ function Ruler() {
     const MINIMUM_SPACE = 100;
 
     if ((isDraggingLeft || isDraggingRight) && rulerRef.current) {
-      const container = rulerRef.current.querySelector("#ruler-container");
+      const container = rulerRef.current.querySelector('#ruler-container');
       if (container) {
         const containerRect = container.getBoundingClientRect();
         const relativeX = clientX - containerRect.left;
@@ -108,12 +108,9 @@ function Ruler() {
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
-      className="h-6 border-b border-gray-300 flex items-end relative select-none print:hidden"
+      className=" w-[816px] h-6 border-b border-gray-300 flex items-end relative select-none print:hidden"
     >
-      <div
-        id="ruler-container"
-        className="max-w-[816px] mx-auto w-full h-full relative"
-      >
+      <div id="ruler-container" className=" mx-auto w-full h-full relative">
         <Marker
           position={leftMargin}
           isLeft={true}

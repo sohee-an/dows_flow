@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import DocumentInput from './document-input';
 import Link from 'next/link';
 import {
@@ -34,8 +34,57 @@ import {
   Undo2Icon,
 } from 'lucide-react';
 import { BsFilePdf } from 'react-icons/bs';
+import { useEditorStore } from '@/store/use-editor-store';
 
 export default function Navbar() {
+  const { editor } = useEditorStore();
+
+  const insertTable = ({ rows, cols }: { rows: number; cols: number }) => {
+    editor
+      ?.chain()
+      .focus()
+      .insertTable({ rows, cols, withHeaderRow: false })
+      .run();
+  };
+
+  const onDownload = (blob: Blob, filename: string) => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+  };
+
+  const onSaveJSON = (filename: string) => {
+    if (!editor) return;
+    const content = editor.getJSON();
+    const blob = new Blob([JSON.stringify(content)], {
+      type: 'application/json',
+    });
+
+    onDownload(blob, `${filename}/json`);
+  };
+
+  const onSaveHTML = (filename: string) => {
+    if (!editor) return;
+    const content = editor.getHTML();
+    const blob = new Blob([content], {
+      type: 'text/html',
+    });
+
+    onDownload(blob, `${filename}/html`);
+  };
+
+  const onSaveText = (filename: string) => {
+    if (!editor) return;
+    const content = editor.getText();
+    const blob = new Blob([content], {
+      type: 'text/plain',
+    });
+
+    onDownload(blob, `${filename}.txt`);
+  };
+
   return (
     <div className="p-2">
       <div className="flex gap-2">
@@ -56,19 +105,43 @@ export default function Navbar() {
                 Save
               </MenubarSubTrigger>
               <MenubarSubContent>
-                <MenubarItem>
+                <MenubarItem
+                  onClick={() => {
+                    const filename = prompt(
+                      '파일 이름을 입력하세요:',
+                      '내 문서'
+                    );
+                    if (filename) onSaveJSON(filename);
+                  }}
+                >
                   <FileJsonIcon className="size-4 mr-2" />
                   JSON
                 </MenubarItem>
-                <MenubarItem>
+                <MenubarItem
+                  onClick={() => {
+                    const filename = prompt(
+                      '파일 이름을 입력하세요:',
+                      '내 문서'
+                    );
+                    if (filename) onSaveHTML(filename);
+                  }}
+                >
                   <GlobeIcon className="size-4 mr-2" />
                   HTML
                 </MenubarItem>
-                <MenubarItem>
+                <MenubarItem onClick={() => window.print()}>
                   <BsFilePdf className="size-4 mr-2" />
                   PDF
                 </MenubarItem>
-                <MenubarItem>
+                <MenubarItem
+                  onClick={() => {
+                    const filename = prompt(
+                      '파일 이름을 입력하세요:',
+                      '내 문서'
+                    );
+                    if (filename) onSaveText(filename);
+                  }}
+                >
                   <FileTextIcon className="size-4 mr-2" />
                   Text
                 </MenubarItem>
@@ -99,11 +172,11 @@ export default function Navbar() {
             Edit
           </MenubarTrigger>
           <MenubarContent>
-            <MenubarItem>
+            <MenubarItem onClick={() => editor?.chain().focus().undo().run()}>
               <Undo2Icon className="size-2 mr-2" />
               Undo <MenubarShortcut>WZ</MenubarShortcut>
             </MenubarItem>
-            <MenubarItem>
+            <MenubarItem onClick={() => editor?.chain().focus().redo().run()}>
               <Redo2Icon className="size-2 mr-2" />
               Redo <MenubarShortcut>WY</MenubarShortcut>
             </MenubarItem>
@@ -117,10 +190,18 @@ export default function Navbar() {
             <MenubarSub>
               <MenubarSubTrigger>Table</MenubarSubTrigger>
               <MenubarSubContent>
-                <MenubarItem>1 x 1</MenubarItem>
-                <MenubarItem>2 x 2</MenubarItem>
-                <MenubarItem>3 x 3</MenubarItem>
-                <MenubarItem>4 x 4</MenubarItem>
+                <MenubarItem onClick={() => insertTable({ rows: 1, cols: 1 })}>
+                  1 x 1
+                </MenubarItem>
+                <MenubarItem onClick={() => insertTable({ rows: 2, cols: 2 })}>
+                  2 x 2
+                </MenubarItem>
+                <MenubarItem onClick={() => insertTable({ rows: 3, cols: 3 })}>
+                  3 x 3
+                </MenubarItem>
+                <MenubarItem onClick={() => insertTable({ rows: 4, cols: 4 })}>
+                  4 x 4
+                </MenubarItem>
               </MenubarSubContent>
             </MenubarSub>
           </MenubarContent>
@@ -136,26 +217,38 @@ export default function Navbar() {
                 Text
               </MenubarSubTrigger>
               <MenubarSubContent>
-                <MenubarItem>
+                <MenubarItem
+                  onClick={() => editor?.chain().focus().toggleBold().run()}
+                >
                   <BoldIcon className="size-4 mr-2" />
                   Bold <MenubarShortcut>cmd + B</MenubarShortcut>
                 </MenubarItem>
-                <MenubarItem>
+                <MenubarItem
+                  onClick={() => editor?.chain().focus().toggleItalic().run()}
+                >
                   <ItalicIcon className="size-4 mr-2" />
                   Italic <MenubarShortcut>cmd + I</MenubarShortcut>
                 </MenubarItem>
-                <MenubarItem>
+                <MenubarItem
+                  onClick={() =>
+                    editor?.chain().focus().toggleUnderline().run()
+                  }
+                >
                   <BoldIcon className="size-4 mr-2" />
                   Underline <MenubarShortcut>cmd + U</MenubarShortcut>
                 </MenubarItem>
-                <MenubarItem>
+                <MenubarItem
+                  onClick={() => editor?.chain().focus().toggleStrike().run()}
+                >
                   <StrikethroughIcon className="size-4 mr-2" />
                   <span>Strikethrough&nbsp;</span>
                   <MenubarShortcut>cmd + S</MenubarShortcut>
                 </MenubarItem>
               </MenubarSubContent>
             </MenubarSub>
-            <MenubarItem>
+            <MenubarItem
+              onClick={() => editor?.chain().focus().unsetAllMarks().run()}
+            >
               <RemoveFormattingIcon className="size-4 mr-2" />
               Clear formatting
             </MenubarItem>
